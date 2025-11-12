@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Like Hero To Zero - Admin Dashboard</title>
+</h:head>
+
+<h:body style="font-family: Arial, sans-serif; margin: 20px;">
+
+    <h:form style="float: right;">
+        <h:outputText value="Willkommen, #{sessionBean.currentScientist.fullName}!" />
+        <p:commandButton value="Logout" action="#{sessionBean.logout()}" style="margin-left: 10px;" />
+    </h:form>
+
+    <h1>Admin Dashboard</h1>
+    <p>Hier können neue CO2-Daten eingetragen werden (MUST 2).</p>
+
+    <h:form id="dataForm">
+        <p:panel header="Neuen Datensatz hinzufügen">
+            <p:messages id="messages" showDetail="true" closable="true" />
+        
+            <h:panelGrid columns="3" cellpadding="5">
+            
+                <p:outputLabel for="country" value="Land:" />
+                <p:selectOneMenu id="country" 
+                                 value="#{adminDashboardBean.selectedCountryId}" 
+                                 required="true">
+                    <f:selectItem itemLabel="Land wählen..." itemValue="#{null}" noSelectionOption="true" />
+                    <f:selectItems value="#{adminDashboardBean.countries}" var="country" 
+                                   itemLabel="#{country.name}" itemValue="#{country.id}" />
+                </p:selectOneMenu>
+                <p:message for="country" /> <p:outputLabel for="year" value="Jahr:" />
+                <p:inputNumber id="year" 
+                               value="#{adminDashboardBean.newData.dataYear}"
+                               decimalPlaces="0" required="true" />
+                <p:message for="year" />
+
+                <p:outputLabel for="emission" value="Emission (kt):" />
+                <p:inputNumber id="emission" 
+                               value="#{adminDashboardBean.newData.emissionValue}" 
+                               required="true" />
+                <p:message for="emission" />
+
+                <h:outputText /> <p:commandButton value="Daten speichern" 
+                                 action="#{adminDashboardBean.saveData()}" 
+                                 update="dataForm" /> <h:outputText /> </h:panelGrid>
+        </p:panel>
+    </h:form>
+    
+    <p style="margin-top: 20px;">
+        <h:link value="Zurück zur öffentlichen Seite" outcome="/index.xhtml" />
+    </p>
+
+</h:body>
+</html>
